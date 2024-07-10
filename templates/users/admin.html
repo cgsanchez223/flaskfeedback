@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin {% endblock %}
+
+{% block content %}
+
+<h1>Welcome {{admin.first_name|upper}}</h1>
+<div class="container">
+    <ul class="admin-profile">
+        <li>First Name: {{admin.first_name}}</li>
+        <li>Last Name: {{admin.last_name}}</li>
+        <li>Email: {{admin.email}}</li>
+    </ul>
+</div>
+<br>
+
+<div class="container">
+    <div class="row">
+        <h3 class="col mt-3">Users <span class="badge badge-pill badge-info display-4">{{users|count}}</span></h3>
+    </div>
+
+    <div class="list-group">
+    {% for user in users %}
+        <div class="userlist">
+            <div>
+                <h3 class="col-12 mb-1">{{user.first_name}} {{user.last_name}}</h3>
+                <div class="col"></div>
+            </div>
+            <small class="mb-1">{{user.email}}</small>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="userfeedback">
+        <h3 class="col mt-3">Feedback <span class="badge badge-pill badge-info display-4">{{feedback|count}}</span></h3>
+
+        <a style="font-size: 2rem;" class="col-2 p-0 m-0 mt-1" href="/users/{{admin.username}}/feedback/add"><span class="badge p-0 m-0">+ Add</span></a>
+    </div>
+
+    <div class="list-group">
+    {% for feedback in feedback %}
+        <div class="list-group-item list-group-item-action flex-column align-items-start">
+            <div>
+                <h3>{{feedback.title}}</h3>
+                <a class="col-1 btn btn-outline-info btn-sm border-0 ml-1" href="/feedback/{{feedback.id}}/update">Edit</a>
+                <form class="col-1" action="/feedback/{{feedback.id}}/delete" method="POST">
+                    <button type="submit" class="btn btn-outline-danger btn-sm border-0">Delete</button>
+                </form>
+                <div class="col"></div>
+            </div>
+            <p class="mb-1">{{feedback.content}}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
